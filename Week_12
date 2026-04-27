@@ -1,0 +1,157 @@
+---Question 1
+DECLARE
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Hello World');
+END;
+
+---Question 2
+CREATE OR REPLACE PROCEDURE add_even IS
+var_n NUMBER;
+sum NUMBER:=0;
+rev NUMBER:=0;
+r NUMBER:=0;
+i NUMBER:=1;
+begin
+    var_n := &Input_n;
+    while var_n > 0 LOOP
+        r := MOD(var_n,10);
+        rev := rev*10 + r;
+        var_n := FLOOR(var_n/10);
+    end loop;
+
+    while rev > 0 LOOP
+        r := MOD(rev,10);
+        if MOD(i,2) = 0 THEN
+            sum := sum + r;
+        end if;
+        rev := FLOOR(rev/10);
+        i := i +1;
+    end loop;
+
+    DBMS_OUTPUT.PUT_LINE(sum);
+end;
+
+BEGIN
+    add_even;
+END;
+
+---Question 3
+CREATE OR REPLACE PROCEDURE prime_comp IS 
+    var_n NUMBER;
+    flag NUMBER:=0;
+    i NUMBER:=2;
+    prime_count NUMBER:=0;
+    comp_count NUMBER:=0;
+
+BEGIN
+    LOOP
+        var_n := &Input_number_enter_zero_to_exit;
+        EXIT WHEN var_n = 0;
+
+        IF var_n = 1 then
+            NULL;
+        ELSE
+            flag := 0;
+            FOR i IN 2 .. var_n-1 LOOP
+                IF MOD(var_n,i) = 0 THEN
+                    flag := 1;
+                end if;
+            end loop;
+            IF flag = 0 then
+                prime_count := prime_count + 1;
+            ELSE
+                comp_count := comp_count + 1;
+            end if;
+        end if;
+    end loop;
+    DBMS_OUTPUT.PUT_LINE('Prime count = '||prime_count||' Composite count = '||comp_count);
+end;
+
+BEGIN
+    prime_comp;
+end;
+
+---Question 4
+CREATE OR REPLACE FUNCTION sort return NUMBER IS 
+    n1 NUMBER;
+    n2 NUMBER;
+    n3 NUMBER;
+    temp NUMBER;
+BEGIN
+    n1 := &input_first_num;
+    n2 := &input_second_num;
+    n3 := &input_third_num;
+
+    IF n1>n2 then
+        temp := n1;
+        n1 := n2;
+        n2 := temp;
+    end if;
+
+    IF n1>n3 then
+        temp := n1;
+        n1 := n3;
+        n3 := temp;
+    end if;
+
+    IF n2>n3 then
+        temp := n2;
+        n2 := n3;
+        n3 := temp;
+    end if;
+
+    DBMS_OUTPUT.PUT_LINE('Ascending order: ' || n1 || ' ' || n2 || ' ' || n3);
+    DBMS_OUTPUT.PUT_LINE('Descending order: ' || n3 || ' ' || n2 || ' ' || n1);
+
+    return 0;
+end;
+
+
+DECLARE
+    result NUMBER;
+BEGIN
+    result := sort; 
+END;
+
+---Question 5
+CREATE OR REPLACE FUNCTION simple_calc(
+    a IN NUMBER,
+    b IN NUMBER,
+    op IN VARCHAR2
+) RETURN NUMBER IS
+    result NUMBER;
+BEGIN
+    IF op = 'ADD' THEN
+        result := a + b;
+
+    ELSIF op = 'SUB' THEN
+        result := a - b;
+
+    ELSIF op = 'MUL' THEN
+        result := a * b;
+
+    ELSIF op = 'DIV' THEN
+        IF b = 0 THEN
+            DBMS_OUTPUT.PUT_LINE('Division by zero not allowed');
+            RETURN NULL;
+        END IF;
+        result := a / b;
+
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Invalid operation');
+        RETURN NULL;
+    END IF;
+
+    RETURN result;
+END;
+
+DECLARE
+    res NUMBER;
+    n1 NUMBER;
+    n2 NUMBER;
+BEGIN
+    n1 := &Input_first_number;
+    n2 := &Input_second_number;
+    res := simple_calc(n1, n2, 'ADD');
+    DBMS_OUTPUT.PUT_LINE('Result = ' || res);
+END;
