@@ -1,0 +1,84 @@
+CREATE TABLE client_master (
+    clientno varchar2(6),
+    name varchar2(20),
+    city varchar2(15),
+    pincode number(8),
+    state varchar2(15),
+    baldue number(10,2)
+    );
+CREATE TABLE product_master(
+    productno VARCHAR2(6),
+    descript VARCHAR2(15),
+    profitpercent NUMBER(4,2),
+    unitmeasure VARCHAR2(10),
+    qtyonhand NUMBER(8),
+    reorderlvl NUMBER(8),
+    sellprice NUMBER(8,2),
+    costprice NUMBER(8,2)
+);
+CREATE TABLE salesman_master (
+    salesmanno VARCHAR2(6),
+    salesmanname VARCHAR2(20),
+    address1 VARCHAR2(30),
+    address2 VARCHAR2(30),
+    city VARCHAR2(20),
+    pincode NUMBER(8),
+    state VARCHAR2(20),
+    salamt NUMBER(8,2)
+);
+INSERT INTO CLIENT_MASTER VALUES
+('C00001', 'Ivan Bayross', 'Mumbai', 400054, 'Maharashtra', 15000);
+
+INSERT INTO CLIENT_MASTER VALUES
+('C00002', 'Mamta Muzumder', 'Madras', 780001, 'Tamil Nadu', 1000);
+
+INSERT INTO CLIENT_MASTER VALUES
+('C00003', 'Chhaya Bankar', 'Mumbai', 400057, 'Maharashtra', 5000);
+
+INSERT INTO CLIENT_MASTER VALUES
+('C00004', 'Ashwini Joshi', 'Bangalore', 560001, 'Karnataka', 0);
+
+INSERT INTO CLIENT_MASTER VALUES
+('C00005', 'Hansel Colaco', 'Mumbai', 400060, 'Maharashtra', 2000);
+
+INSERT INTO CLIENT_MASTER VALUES
+('C00006', 'Deepak Sharma', 'Mangalore', 560050, 'Karnataka', 0);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P00001', 'T-Shirts', 5, 'Piece', 200, 50, 350, 250);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P0345', 'Shirts', 6, 'Piece', 150, 50, 500, 350);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P06734', 'Cotton Jeans', 5, 'Piece', 100, 20, 600, 450);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P07865', 'Jeans', 5, 'Piece', 100, 20, 750, 500);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P07868', 'Trousers', 2, 'Piece', 150, 50, 850, 550);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P07885', 'Pull Overs', 2.5, 'Piece', 80, 30, 700, 450);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P07965', 'Denim Shirts', 4, 'Piece', 100, 40, 350, 250);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P07975', 'Lycra Tops', 5, 'Piece', 70, 30, 300, 175);
+
+INSERT INTO PRODUCT_MASTER VALUES
+('P08865', 'Skirts', 5, 'Piece', 75, 30, 450, 300);
+
+INSERT INTO SALESMAN_MASTER VALUES
+('S00001', 'Aman',   'A/14', 'Worli', 'Mumbai', 400002, 'Maharashtra', 3500);
+
+INSERT INTO SALESMAN_MASTER VALUES
+('S00002', 'Omkar',  '65',   'Nariman', 'Mumbai', 400001, 'Maharashtra', 4000);
+
+INSERT INTO SALESMAN_MASTER VALUES
+('S00003', 'Raj',    'P-7',  'Bandra', 'Mumbai', 400032, 'Maharashtra', 5000);
+
+INSERT INTO SALESMAN_MASTER VALUES
+('S00004', 'Ashish', 'A/5',  'Juhu', 'Mumbai', 400044, 'Maharashtra', 3500);
