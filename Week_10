@@ -1,0 +1,51 @@
+CREATE TABLE customer (
+Customer_id NUMBER PRIMARY KEY,
+Customer_name VARCHAR2(30),
+Mobile_no NUMBER(10),
+Address VARCHAR2(30));
+
+CREATE TABLE mobile (
+mobile_id NUMBER PRIMARY KEY,
+brand VARCHAR2(30),
+model VARCHAR2(10),
+Customer_id NUMBER,
+FOREIGN KEY (Customer_id) REFERENCES customer(Customer_id));
+
+CREATE TABLE service_request (
+service_id NUMBER PRIMARY KEY,
+mobile_id NUMBER,
+Problem_Description VARCHAR2(50),
+Service_Date DATE,
+Service_Cost NUMBER,
+FOREIGN KEY (mobile_id) REFERENCES mobile(mobile_id));
+
+INSERT INTO CUSTOMER VALUES(101, 'Maariyah', 7088430927, 'SS Nagar');
+INSERT INTO CUSTOMER VALUES(102, 'Sadia', 7999430927, 'Muzamil Manzil');
+INSERT INTO CUSTOMER VALUES(103, 'Fatima', 7088437327, 'Medical Colony');
+INSERT INTO CUSTOMER VALUES(104, 'Priyanshi', 7066630927, 'Railway road');
+INSERT INTO CUSTOMER VALUES(105, 'Haseen', 7088111927, 'Hamza Colony');
+
+INSERT INTO MOBILE VALUES (201, 'Samsung','A52',101);
+INSERT INTO MOBILE VALUES (202, 'Samsung','A52',102);
+INSERT INTO MOBILE VALUES (203, 'Apple','iphone 17',103);
+INSERT INTO MOBILE VALUES (204, 'Oneplus','nord Ce',101);
+INSERT INTO MOBILE VALUES (205, 'Redmi','Redmi9++',104);
+
+INSERT INTO Service_Request VALUES (301, 201, 'Broken screen', TO_DATE( '10-11-2025', 'DD-MM-YYYY'), 500);
+INSERT INTO Service_Request VALUES (302, 204, 'Broken screen', TO_DATE( '10-11-2025', 'DD-MM-YYYY'), 500);
+INSERT INTO Service_Request VALUES (303, 202, 'Not charging', TO_DATE( '10-01-2026', 'DD-MM-YYYY'), 800);
+INSERT INTO Service_Request VALUES (304, 203, 'Hanging', TO_DATE( '10-12-2025', 'DD-MM-YYYY'), 400);
+INSERT INTO Service_Request VALUES (305, 205, 'not switching on', TO_DATE( '27-11-2025', 'DD-MM-YYYY'), 1000);
+INSERT INTO Service_Request VALUES (306, 205, 'not switching on', TO_DATE( '27-11-2025', 'DD-MM-YYYY'), 1000);
+
+SELECT * FROM CUSTOMER;
+select * from service_request;
+
+SELECT m.mobile_id, s.service_id, m.brand, m.model FROM mobile m 
+JOIN Service_Request s ON m.mobile_id = s.mobile_id;
+
+SELECT c.customer_name, m.brand, m.model FROM mobile m 
+JOIN customer c ON m.customer_id = c.customer_id;
+
+SELECT mobile_id, service_id, Problem_Description, Service_Date, Service_Cost FROM Service_Request 
+WHERE mobile_id = 201;
