@@ -1,0 +1,61 @@
+CREATE TABLE patient (
+Patient_ID NUMBER PRIMARY KEY,
+Patient_Name VARCHAR2(30),
+Age NUMBER,
+Gender CHAR(1),
+Contact_Number NUMBER(10));
+
+CREATE TABLE Doctor (
+Doctor_ID NUMBER PRIMARY KEY,
+Doctor_Name VARCHAR2(30),
+Specialization VARCHAR2(30),
+Room_No NUMBER);
+
+CREATE TABLE Appointment (
+Appointment_ID NUMBER PRIMARY KEY,
+Patient_ID NUMBER,
+Doctor_ID NUMBER,
+Appointment_Date DATE,
+Appointment_Time VARCHAR2(10),
+FOREIGN KEY (Patient_ID) REFERENCES Patient(Patient_ID),
+FOREIGN KEY (Doctor_ID) REFERENCES Doctor(Doctor_ID));
+
+INSERT INTO Patient VALUES(101, 'Ahmed Khan', 35, 'M', 9867656788);
+INSERT INTO Patient VALUES(102, 'Maria Ali', 21, 'F', 9867888788);
+INSERT INTO Patient VALUES(103, 'Sana Ahmad', 76, 'F', 9967656788);
+INSERT INTO Patient VALUES(104, 'Mujtaba Faizan', 12, 'M', 9867555788);
+INSERT INTO Patient VALUES(105, 'Zoha Khan', 27, 'F', 9862233788);
+INSERT INTO Patient VALUES(106, 'Maria Faizan', 21, 'F', 9867888788);
+
+INSERT INTO Doctor VALUES(201, 'Dr. Sharma', 'Cardiology', 12);
+INSERT INTO Doctor VALUES(202, 'Dr. Peerzada', 'General Care', 13);
+INSERT INTO Doctor VALUES(203, 'Dr. Anjum', 'Neurology', 14);
+INSERT INTO Doctor VALUES(204, 'Dr. Gupta', 'Cardiology', 15);
+INSERT INTO Doctor VALUES(205, 'Dr. Zafreen', 'Gynecology', 16);
+
+INSERT INTO Appointment Values(301,101,201, TO_DATE('15-10-2025','DD-MM-YYYY'), '10:30 am');
+INSERT INTO Appointment Values(302,102,202, TO_DATE('15-10-2025','DD-MM-YYYY'), '10:30 am');
+INSERT INTO Appointment Values(303,103,203, TO_DATE('14-11-2025','DD-MM-YYYY'), '11:30 am');
+INSERT INTO Appointment Values(304,104,203, TO_DATE('01-12-2025','DD-MM-YYYY'), '10:00 am');
+INSERT INTO Appointment Values(305,105,205, TO_DATE('11-10-2025','DD-MM-YYYY'), '09:30 am');
+
+SELECT * FROM Patient;
+SELECT * FROM Doctor;
+SELECT * FROM Appointment;
+
+SELECT * FROM Appointment WHERE Patient_ID = 101;
+INSERT INTO Appointment Values(305, 106, 205, TO_DATE('11-10-2025','DD-MM-YYYY'), '09:30 am');
+
+SELECT * FROM Patient;
+SELECT Doctor_Name, Specialization FROM Doctor;
+SELECT * FROM Appointment WHERE Patient_ID = 101;
+SELECT * FROM Patient WHERE age > 50;
+SELECT d.Doctor_ID, d.Doctor_Name, a.Appointment_ID FROM DOCTOR d JOIN Patient_Appointment a ON d.Doctor_ID = a.Doctor_ID; 
+UPDATE Patient SET Contact_Number= 7368765456 WHERE Patient_ID = 102;
+UPDATE Appointment SET Appointment_Time = '8:00 AM' WHERE Appointment_ID = 301;
+DELETE From Appointment WHERE Appointment_ID = 305;
+DELETE FROM Patient WHERE Patient_ID NOT IN (SELECT Patient_ID FROM Appointment);
+ALTER TABLE Patient ADD Email VARCHAR2(20);
+ALTER TABLE Patient MODIFY Contact_Number VARCHAR2(10);
+ALTER TABLE Appointment RENAME TO Patient_Appointment;
+DROP TABLE Doctor;
