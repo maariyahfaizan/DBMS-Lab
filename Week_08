@@ -1,0 +1,46 @@
+CREATE TABLE Student(
+ Student_ID NUMBER Primary Key,
+ Student_Name VARCHAR2(20) NOT NULL, 
+ Course VARCHAR2(20) NOT NULL,
+ Mobile_No NUMBER UNIQUE );
+
+CREATE TABLE Table_Book (
+ Book_ID NUMBER Primary Key,
+ Book_Title  VARCHAR2(20) NOT NULL,
+ Author VARCHAR2(20) NOT NULL,
+ Price NUMBER CHECK (Price>0)) ;
+
+CREATE TABLE Table_Issue(
+ Issue_ID NUMBER Primary Key,
+ Student_ID NUMBER, Foreign Key(Student_ID) references Students(Student_ID),
+ Book_ID NUMBER, Foreign Key(Book_ID) references Table_Book (Book_ID),
+ Issue_Date DATE NOT NULL) ;
+
+desc Table_Issue
+INSERT INTO Student VALUES (101,'PRIYANSHI','BCA',9999999999);
+INSERT INTO Student VALUES (102,'MONIKA','BCA',9999999989);
+INSERT INTO Student VALUES (103,'RITIKA','BCA',9999999979);
+INSERT INTO Student VALUES (104,'FATIMA','BCA',9999999969);
+INSERT INTO Student VALUES (105,'ASNA','BCA',9999999959);
+INSERT INTO Student VALUES (106,'AAKRITI','BCA',9999999959);
+
+INSERT INTO Table_Book VALUES (1,'DATABASE SYSTEMS','C.J.DATE',550);
+INSERT INTO Table_Book VALUES (2,' Algorithms','Thomas Cormen',1550);
+INSERT INTO Table_Book VALUES (3,' Clean Code','Robert Martin',1000);
+INSERT INTO Table_Book VALUES (4,' Algorithms to Live','Tom Griffiths',1200);
+INSERT INTO Table_Book VALUES (5,' Code ','Charles Petzold',1200);
+INSERT INTO Table_Book VALUES (6,' Databases','C.Petzold',-1200);
+
+INSERT INTO Table_Issue VALUES (501,101,1,To_Date('18-03-2026','DD-MM-YYYY'));
+INSERT INTO Table_Issue VALUES (502,102,2,To_Date('19-03-2026','DD-MM-YYYY'));
+INSERT INTO Table_Issue VALUES (503,103,3,To_Date('20-03-2026','DD-MM-YYYY'));
+INSERT INTO Table_Issue VALUES (504,104,4,To_Date('21-03-2026','DD-MM-YYYY'));
+INSERT INTO Table_Issue VALUES (505,105,5,To_Date('22-03-2026','DD-MM-YYYY'));
+INSERT INTO Table_Issue VALUES (506,107,5,To_Date('22-03-2026','DD-MM-YYYY'));
+
+SELECT * FROM Student
+SELECT * FROM Table_Book
+SELECT s.Student_Name, b.Book_Title
+FROM Student s
+JOIN Table_Issue i ON s.Student_ID = i.Student_ID
+JOIN Table_Book b ON i.Book_ID = b.Book_ID;
