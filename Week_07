@@ -1,0 +1,202 @@
+CREATE TABLE PERSON (
+    driver_id VARCHAR2(20) PRIMARY KEY,
+    name VARCHAR2(50),
+    address VARCHAR2(100)
+);
+
+CREATE TABLE CAR (
+    regno VARCHAR2(20) PRIMARY KEY,
+    model VARCHAR2(50),
+    year NUMBER
+);
+
+CREATE TABLE ACCIDENT (
+    report_number NUMBER PRIMARY KEY,
+    accd_date DATE,
+    location VARCHAR2(100)
+);
+
+CREATE TABLE OWNS (
+    driver_id VARCHAR2(20),
+    regno VARCHAR2(20),
+    PRIMARY KEY (driver_id, regno),
+    FOREIGN KEY (driver_id) REFERENCES PERSON(driver_id),
+    FOREIGN KEY (regno) REFERENCES CAR(regno)
+);
+
+CREATE TABLE PARTICIPATED (
+    driver_id VARCHAR2(20),
+    regno VARCHAR2(20),
+    report_number NUMBER,
+    damage_amount NUMBER,
+    PRIMARY KEY (driver_id, regno, report_number),
+    FOREIGN KEY (driver_id) REFERENCES PERSON(driver_id),
+    FOREIGN KEY (regno) REFERENCES CAR(regno),
+    FOREIGN KEY (report_number) REFERENCES ACCIDENT(report_number)
+);
+
+INSERT INTO person VALUES ('AB1', 'Sadia Zafreen', 'Medical Colony');
+INSERT INTO person VALUES ('AB2', 'Maariyah Anjum', 'Hamza Colony');
+INSERT INTO person VALUES ('AB3', 'Aiyesha Zaheer', 'Sir syed nagar');
+INSERT INTO person VALUES ('AB4', 'Mujtaba Faizan', 'Jamalpur');
+INSERT INTO person VALUES ('AB5', 'Talat Zeba', 'Medical Colony');
+
+INSERT INTO car VALUES ('X001', 'XYZ Model', 2024);
+INSERT INTO car VALUES ('X002', 'ABC Model', 2020);
+INSERT INTO car VALUES ('X003', 'MNO Model', 2004);
+INSERT INTO car VALUES ('X004', 'APK Model', 2016);
+INSERT INTO car VALUES ('X005', 'QUR Model', 2009);
+INSERT INTO car VALUES ('X006', 'MNO Model', 2004);
+
+INSERT INTO accident VALUES (01, TO_DATE('12-12-2006', 'DD-MM-YYYY'), 'Dhorrah');
+INSERT INTO accident VALUES (02, TO_DATE('10-11-2026', 'DD-MM-YYYY'), 'Dhorrah');
+INSERT INTO accident VALUES (03, TO_DATE('12-10-2009', 'DD-MM-YYYY'), 'Zakaria Market');
+INSERT INTO accident VALUES (04, TO_DATE('27-09-2016', 'DD-MM-YYYY'), 'Jamalpur');
+INSERT INTO accident VALUES (05, TO_DATE('12-01-2019', 'DD-MM-YYYY'), 'Ramghat Road');
+
+
+INSERT INTO owns VALUES ('AB1', 'X001');
+INSERT INTO owns VALUES ('AB2', 'X002');
+INSERT INTO owns VALUES ('AB2', 'X003');
+INSERT INTO owns VALUES ('AB3', 'X004');
+INSERT INTO owns VALUES ('AB4', 'X006');
+
+INSERT INTO participated VALUES ('AB1', 'X001', 01, 250000);
+INSERT INTO participated VALUES ('AB2', 'X002', 02, 50000);
+INSERT INTO participated VALUES ('AB2', 'X003', 03, 100000);
+INSERT INTO participated VALUES ('AB3', 'X004', 04, 2500);
+INSERT INTO participated VALUES ('AB4', 'X006', 05, 60000);
+INSERT INTO participated VALUES ('AB4', 'X006', 12, 60000);
+
+SELECT * FROM PERSON;
+SELECT * FROM CAR;
+SELECT * FROM ACCIDENT;
+SELECT * FROM OWNS;
+SELECT * FROM PARTICIPATED;
+
+UPDATE participated SET damage_amount = 25000 WHERE regno = 'X006' AND report_number = 12;
+
+INSERT INTO accident VALUES (12, TO_DATE('12-10-2016', 'DD-MM-YYYY'), 'Dhorrah');
+
+SELECT COUNT(DISTINCT P.driver_id) AS total_people FROM PERSON P 
+JOIN OWNS O ON P.driver_id = O.driver_id
+JOIN PARTICIPATED PA ON O.regno = PA.regno
+JOIN ACCIDENT A ON A.report_number = PA.report_number
+WHERE EXTRACT(YEAR FROM A.accd_date) BETWEEN 2008 AND 2020;
+
+SELECT C.model, COUNT(P.report_number) AS number_of_accidents FROM CAR C
+JOIN PARTICIPATED P ON P.regno = C.regno 
+GROUP BY C.model;
+
+
+CREATE TABLE BRANCH (
+    branch_name VARCHAR2(50) PRIMARY KEY,
+    branch_city VARCHAR2(50),
+    assets NUMBER
+);
+
+CREATE TABLE CUSTOMER (
+    customer_no VARCHAR2(20) PRIMARY KEY,
+    customer_name VARCHAR2(50),
+    customer_street VARCHAR2(100),
+    customer_city VARCHAR2(50)
+);
+
+CREATE TABLE ACCOUNT (
+    accno NUMBER PRIMARY KEY,
+    branch_name VARCHAR2(50),
+    balance NUMBER,
+    FOREIGN KEY (branch_name) REFERENCES BRANCH(branch_name)
+);
+
+CREATE TABLE LOAN (
+    loan_number NUMBER PRIMARY KEY,
+    branch_name VARCHAR2(50),
+    amount NUMBER,
+    FOREIGN KEY (branch_name) REFERENCES BRANCH(branch_name)
+);
+
+CREATE TABLE DEPOSITOR (
+    customer_no VARCHAR2(20),
+    accno NUMBER,
+    PRIMARY KEY (customer_no, accno),
+    FOREIGN KEY (customer_no) REFERENCES CUSTOMER(customer_no),
+    FOREIGN KEY (accno) REFERENCES ACCOUNT(accno)
+);
+
+CREATE TABLE BORROWER (
+    customer_no VARCHAR2(20),
+    loan_number NUMBER,
+    PRIMARY KEY (customer_no, loan_number),
+    FOREIGN KEY (customer_no) REFERENCES CUSTOMER(customer_no),
+    FOREIGN KEY (loan_number) REFERENCES LOAN(loan_number)
+);
+
+INSERT INTO BRANCH VALUES ('Aligarh', 'Aligarh', 5000000);
+INSERT INTO BRANCH VALUES ('Delhi', 'Delhi', 8000000);
+INSERT INTO BRANCH VALUES ('Mumbai', 'Mumbai', 9000000);
+INSERT INTO BRANCH VALUES ('Chennai', 'Chennai', 7000000);
+INSERT INTO BRANCH VALUES ('Kolkata', 'Kolkata', 6000000);
+
+INSERT INTO CUSTOMER VALUES ('C1', 'Aman', 'Street1', 'Aligarh');
+INSERT INTO CUSTOMER VALUES ('C2', 'Riya', 'Street2', 'Delhi');
+INSERT INTO CUSTOMER VALUES ('C3', 'Karan', 'Street3', 'Mumbai');
+INSERT INTO CUSTOMER VALUES ('C4', 'Neha', 'Street4', 'Chennai');
+INSERT INTO CUSTOMER VALUES ('C5', 'Arjun', 'Street5', 'Kolkata');
+
+INSERT INTO ACCOUNT VALUES (101, 'Aligarh', 150000);
+INSERT INTO ACCOUNT VALUES (102, 'Aligarh', 120000);
+INSERT INTO ACCOUNT VALUES (103, 'Delhi', 90000);
+INSERT INTO ACCOUNT VALUES (104, 'Mumbai', 200000);
+INSERT INTO ACCOUNT VALUES (105, 'Chennai', 50000);
+
+INSERT INTO DEPOSITOR VALUES ('C1', 101);
+INSERT INTO DEPOSITOR VALUES ('C1', 102);
+INSERT INTO DEPOSITOR VALUES ('C2', 103);
+INSERT INTO DEPOSITOR VALUES ('C3', 104);
+INSERT INTO DEPOSITOR VALUES ('C4', 105);
+
+INSERT INTO LOAN VALUES (201, 'Aligarh', 300000);
+INSERT INTO LOAN VALUES (202, 'Delhi', 200000);
+INSERT INTO LOAN VALUES (203, 'Mumbai', 400000);
+INSERT INTO LOAN VALUES (204, 'Chennai', 150000);
+INSERT INTO LOAN VALUES (205, 'Kolkata', 250000);
+
+INSERT INTO BORROWER VALUES ('C1', 201);
+INSERT INTO BORROWER VALUES ('C2', 202);
+INSERT INTO BORROWER VALUES ('C3', 203);
+INSERT INTO BORROWER VALUES ('C4', 204);
+INSERT INTO BORROWER VALUES ('C5', 205);
+
+SELECT * FROM BRANCH;
+SELECT * FROM ACCOUNT;
+SELECT * FROM DEPOSITOR;
+SELECT * FROM CUSTOMER;
+SELECT * FROM LOAN;
+SELECT * FROM BORROWER;
+
+SELECT C.customer_no, C.customer_name FROM CUSTOMER C
+JOIN DEPOSITOR D ON C.customer_no = D.customer_no 
+JOIN ACCOUNT A ON D.accno = A.accno
+WHERE A.branch_name = 'Aligarh'
+GROUP BY C.customer_no, C.customer_name HAVING COUNT(D.accno)>=2;
+
+SELECT C.customer_no, C.customer_name FROM CUSTOMER C
+JOIN DEPOSITOR D ON C.customer_no = D.customer_no 
+JOIN ACCOUNT A ON D.accno = A.accno
+WHERE A.balance > 100000
+GROUP BY C.customer_no, C.customer_name;
+
+DELETE FROM DEPOSITOR
+WHERE accno IN (
+    SELECT accno FROM ACCOUNT
+    WHERE branch_name IN (
+        SELECT branch_name FROM BRANCH
+        WHERE branch_city = 'Aligarh'
+    )
+);
+DELETE FROM ACCOUNT
+WHERE branch_name IN (
+    SELECT branch_name FROM BRANCH
+    WHERE branch_city = 'Aligarh'
+);
