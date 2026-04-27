@@ -1,0 +1,34 @@
+SELECT * FROM client_master;
+SELECT * FROM product_master;
+SELECT * FROM salesman_master;
+
+SELECT name, city FROM client_master;
+SELECT * FROM client_master;
+SELECT name, city, state FROM client_master WHERE baldue = 0;
+
+UPDATE client_master SET city = 'Bangalore' WHERE clientno = 'C00005';
+UPDATE client_master SET baldue = 1000 WHERE clientno = 'C00001';
+UPDATE product_master SET costprice = 950 WHERE descript = 'Trousers';
+SELECT * FROM client_master;
+SELECT * FROM product_master;
+
+CREATE TABLE RES_CLIENT_MASTER AS SELECT * FROM CLIENT_MASTER;
+CREATE TABLE RES_PRODUCT_MASTER AS SELECT * FROM PRODUCT_MASTER;
+CREATE TABLE RES_SALESMAN_MASTER AS SELECT * FROM SALESMAN_MASTER;
+
+DELETE FROM salesman_master WHERE salamt = 3500;
+DELETE FROM product_master WHERE qtyonhand = 100;
+DELETE FROM client_master WHERE state = 'Tamil Nadu';
+SELECT * FROM client_master;-
+SELECT * FROM product_master;
+SELECT * FROM salesman_master;
+
+ALTER TABLE client_master ADD telephone NUMBER(10);
+ALTER TABLE product_master MODIFY (sellprice NUMBER(10,2));
+DESC client_master;
+DESC product_master;
+
+ALTER TABLE product_master RENAME TO sman_mast;
+SELECT * FROM sman_mast;
+
+DROP client_master;
